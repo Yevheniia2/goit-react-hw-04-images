@@ -16,21 +16,28 @@ export const App = () => {
   const [totalPages, setTotalPages] = useState(0);
 
   useEffect(() => {
-    setIsLoading(true);
+    if(query !== '') {
       fetchImages(query, page).then(images => {
         setImages(prev => page === 1 ? images.hits: [...prev, ...images.hits]);
         setTotalPages(images.totalHits);
+        if (images.hits.length === 0) {
+          alert(`Ups!!! No results were found for "${query}", please edit your query.`);
+        }
       }).catch(error => console.log(error)).finally(() => setIsLoading(false));
-    }, [query, page]);
+    }
+    if (!query) {
+      alert('Enter your request please!');
+    }
+  }, [query, page]);
 
   const onSubmit = e => {
     e.preventDefault();
     setQuery(e.target.elements.query.value);
     setPage(1);
-    // e.currentTarget.reset();
   };
 
   const handleLoadMore = () => {
+    setIsLoading(true);
     setPage(prev => prev + 1);
   };
 
