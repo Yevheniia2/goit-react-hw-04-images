@@ -1,28 +1,23 @@
-import { Component } from "react";
+import { useEffect } from "react";
 
-export class Modal extends Component {
-    componentDidMount() {
-        document.addEventListener('keydown', this.onESCclick);
-    }
-
-    onESCclick = e => {
-        if (e.key === 'Escape') {
-            this.props.toggleModal();
+export const Modal = ({ modalImage, toggleModal }) => {
+    useEffect(() => {
+        const onESCclick = e => {
+            if (e.key === 'Escape') {
+                toggleModal();
+            }
+        };
+        document.addEventListener('keydown', onESCclick);
+        return () => {
+            document.removeEventListener('keydown', this.onESCclick);
         }
-    };
+    }, [toggleModal]);
 
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.onESCclick);
-    }
-
-    render() {
-        const { modalImage, toggleModal } = this.props;
-        return (
-            <div className="overlay" onClick={() => toggleModal()}>
-                <div className="modal">
-                    <img src={modalImage} alt="" />
-                </div>
+    return (
+        <div className="overlay" onClick={() => toggleModal()}>
+            <div className="modal">
+                <img src={modalImage} alt="" />
             </div>
-        );
-    }
-}
+        </div>
+    );
+};
