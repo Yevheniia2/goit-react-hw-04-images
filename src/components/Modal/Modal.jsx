@@ -9,7 +9,7 @@ export const Modal = ({ modalImage, toggleModal }) => {
         };
         document.addEventListener('keydown', onESCclick);
         return () => {
-            document.removeEventListener('keydown', this.onESCclick);
+            document.removeEventListener('keydown', onESCclick);
         }
     }, [toggleModal]);
 
